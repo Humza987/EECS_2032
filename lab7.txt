@@ -1,0 +1,27 @@
+SIM->SCGC5 |=SIM_SCGC5_PORTE_MASK; //Enable the clock to POT E
+PORTE->PCR[31]=0x100;// Set the MUX fiewld in PTE31 to 1 (GPIO)
+PTE->PDDR |= 1u<<31u; // set pin 31 of Port E to output
+PTE->PCOR |=1u<<31u; 
+
+SysTick->CTRL |= 1<<0 | 1<<2; /*use system clock,
+initialize, No interrupt */
+SysTick->LOAD = 0xF42400;
+while(1) {
+while((SysTick->CTRL & 0x10000) == 0) {} /*
+//wait for the flag to set */
+PTE->PTOR |= 1u << 31; // toggle the LED
+}
+
+////////////////////////////////////////
+
+while(1) {
+
+read button
+interrupt_handler();
+delay()...
+}
+
+setup red led and sw3
+
+
+
